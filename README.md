@@ -2,10 +2,6 @@
 
 ![Retail Banner](./assets/banner.png)
 
----
-
-## 🏷️ Badges
-
 ![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
 ![.NET Framework](https://img.shields.io/badge/.NET_Framework_4.7.2-512BD4?style=for-the-badge&logo=.net&logoColor=white)
 ![Visual Studio 2022](https://img.shields.io/badge/Visual_Studio_2022-5C2D91?style=for-the-badge&logo=visual-studio&logoColor=white)
@@ -14,228 +10,172 @@
 
 ---
 
-## 📝 Short Description
+## 📝 Overview
 
-**Retail Management System** is a Windows Forms application developed as an **academic project** that simulates the main functionalities of a real retail store management system.
+**Retail Management System** is a Windows Forms desktop application built as an academic project, simulating the day-to-day operations of a real retail store.
 
-It focuses on **inventory control, employee and client management, sales processing, and administrative operations**, implementing **CRUD functionalities** (Create, Read, Update, Delete) throughout its interface.
+The goal was to go beyond a simple CRUD exercise and build something that actually reflects how a retail business works: with inventory, employees, clients, sales, and a permission system that varies depending on who is logged in. The four user roles (Admin, Manager, Employee, and Client) each have a different experience of the system, which required thinking carefully about architecture from the start rather than bolting permissions on at the end.
 
-The system was designed with different user roles (**Admin, Manager, Employee, and Client**), each having distinct permissions and access levels - closely reflecting a real-world retail environment.
-
-🧠 **Highlight:**  
-This project was built to strengthen knowledge in **C# programming, SQL Server database integration, layered architecture**, and **realistic retail system simulation**.
-<br><br>
-> 🗒️ **Note:**  
-> All code comments and database documentation inside `baseDadosLoja.txt` are written in **Portuguese**,  
-> as this project was developed for academic purposes in Portugal.
+> 🗒️ Code comments and the database documentation in `baseDadosLoja.txt` are written in Portuguese, as this was developed for academic purposes in Portugal.
 
 ---
 
-## 🎞️ GIFs / Screenshots
+## 🎞️ Demo
+
+![Retail Banner](./assets/banner.png)
+
+### GIFs Keys Flow
 
 **<h3>1️⃣ Login, Validation & Client Purchase Flow</h3>**
+
 <p align="left">
+
   <img src="./assets/login-purchase.gif" width="900" alt="Login and Purchase Flow">
+
 </p>
+
 <i>Shows login and registration with validation, followed by a client browsing products, using filters, adding items to the cart, and completing a purchase.</i>
-<br></br>
+
+<br>
 
 **<h3>2️⃣ Product CRUD (Admin Operations)</h3>**
+
 <p align="left">
+
   <img src="./assets/product-crud.gif" width="900" alt="Product CRUD">
+
 </p>
+
 <i>Demonstrates the admin registering a new product, consulting the list, updating details, deleting items, and testing validation rules.</i>
-<br></br>
+
+<br>
 
 **<h3>3️⃣ Admin Permissions Overview</h3>**
+
 <p align="left">
+
   <img src="./assets/admin-permissions.gif" width="900" alt="Admin Permissions">
+
 </p>
+
 <i>Displays all admin privileges, including access to registration and consultation modules, employee and product updates, search functionality, and general CRUD interactions.</i>
+
+---
+
+## 🏗️ Architecture & Design Decisions
+
+The system is built around a **3-layer architecture**: Presentation, Control, and Data, and that structure was intentional from day one, not something that emerged organically.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/arquitechture-light.png">
+  <img alt="Architecture Diagram" src="./assets/arquitechture-dark.png">
+</picture>
+
+| Layer | What it does |
+|---|---|
+| **Presentation** | All Windows Forms: every `frm*` form, user input, and what gets displayed |
+| **Control** | Business logic, permission enforcement, and validations |
+| **Data** | SQL Server connection, query execution, and BLOB image handling |
+
+The main reason for this separation was the permission system. With four roles that each have different access rights, it would have been tempting to scatter `if (role == Admin)` checks across the form event handlers. Instead, all permission logic lives in the Control layer, which keeps the UI clean and makes it much easier to reason about what each role can actually do.
+
+The Presentation layer itself is also structured deliberately: split into `REGISTER/`, `CONSULT/`, and `UPDATE/` folders that map directly to Create, Read, and Update operations. This means anyone reading the project can navigate it without needing to understand the business logic first.
+
+One smaller but deliberate choice was storing product images as BLOBs in SQL Server rather than as file paths pointing to an external folder. It makes the system self-contained: the database backup includes everything, and there is no risk of the image paths breaking when the project is moved between machines.
+
+---
+
+## 👤 User Roles & Permissions
+
+The permission matrix was designed upfront. Each role has a dedicated shell form (`frmAdmin`, `frmManager`, `frmEmployee`, `frmClient`) that only exposes the modules that role is allowed to use, rather than showing everything and hiding parts based on conditions.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/client-flow-light.png">
+  <img alt="Architecture Diagram" src="./assets/client-flow-dark.png">
+</picture>
+
+| Role | Register | Consult | Update | Delete |
+|---|---|---|---|---|
+| **Admin** | Clients, Employees, Products, Sales | All tables | All entities | ✅ |
+| **Manager** | Clients, Products, Sales | All except Employees | All except Employees | ✅ |
+| **Employee** | Clients, Sales | Clients, Sales, Stock | Clients, Sales | ❌ |
+| **Client** | — | Products, Cart | — | — |
+
+---
+
+## 👨‍💻 My Contributions
+
+This was a group academic project. My role covered the parts I found most interesting architecturally.
+
+I defined and enforced the 3-layer structure across the team, built the permission logic and the role-based shell forms, and implemented the majority of the Windows Forms interface across all three CRUD folders. I also wrote the business validations and error handling in the Control layer, set up all the database scripts, and put together this documentation and repository organisation.
 
 ---
 
 ## 💻 Technologies
 
-- **C#**
-- **.NET Framework 4.7.2**
-- **Windows Forms (GUI)**
-- **SQL Server (Database)**
-- **Visual Studio 2022**
+**C# / .NET Framework 4.7.2** · **Windows Forms** · **SQL Server** · **Visual Studio 2022**
 
 ---
 
 ## ⚙️ Installation & Usage
 
-### Clone the Repository
 ```bash
 git clone https://github.com/goncalo-f-oliveira/retail-management-system.git
 ```
-### Open & Run
 
-```bash
-1. Open 'projetoLoja.sln' in Visual Studio 2022
-2. Make sure .NET Framework 4.7.2 is installed
-3. Do the Database Setup steps (see **Database Setup** section below)
-4. Build the solution (Build → Build Solution)
-5. Run the app (Start ▶)
+1. Open `projetoLoja.sln` in **Visual Studio 2022**
+2. Make sure **.NET Framework 4.7.2** is installed
+3. Follow the database setup steps below
+4. Build the solution and run ▶
+
+### 🗄️ Database Setup
+
+1. Open **SQL Server Management Studio**
+2. Open `baseDadosLoja.txt` and run the script — it creates `lojaDB` with all tables, relationships, and seed data
+3. In `src/Data/Connection.cs`, update the connection string to match your setup:
+
+```csharp
+conn.ConnectionString = "Data Source=localhost;Initial Catalog=lojaDB;
+Integrated Security=True;TrustServerCertificate=True;";
 ```
 
-## 🔹 Database Setup (SQL Server)
+### 🖼️ Optional Product Images
 
-This project uses **SQL Server** as the database engine.  
-All tables, relationships, and seed data are provided in the following file:
-
-📄 **`baseDadosLoja.txt`**
-
-<br>
-
-### 🧭 Setup Steps:
-
-1. Open **SQL Server Management Studio (SSMS)**  
-2. Open or copy the content of the file **`baseDadosLoja.txt`**
-3. Execute the script (press **F5**) — it will automatically create the database **`lojaDB`**
-4. The script includes:
-   - Tables for `Users`, `Clients`, `Employees`, `Categories`, `Products`, `Stock`, `Sales`, and `Sizes`
-   - Example data and predefined relationships  
-   - Clear comments describing each section and table purpose
-
-<br>
-  
-> ⚠️ **Important:** Before running the app, open `src/Data/Connection.cs` and update the connection string in the `Connection()` constructor to match your SQL Server setup:
->
-> ```csharp
-> conn.ConnectionString = "Data Source=localhost;Initial Catalog=lojaDB;Integrated Security=True;TrustServerCertificate=True;";
-> ```
-> Modify `Data Source`, `Initial Catalog`, or authentication (User ID/Password) if your SQL Server is on another machine, container, or uses SQL login.
-
----
-
-## 🖼️ Optional Product Images
-
-- The system supports **optional product images** stored as **BLOBs** in the database.  
-- Some sample images are already included in the folder `src/Resources/`.
-- They are **not linked to the database by default** (`Image` column remains `NULL`).
-
-<br>
-
-### ❓ How to Add Images to the Database
-
-1. Navigate to your local directory, for example:  
-   `C:\YourPath\src\Resources\`
-2. Add your image files to this folder.  
-3. Use one of the SQL examples below to **insert or update images** in your database.
-
----
-
-### 💾 Example Commands
+Images are stored as BLOBs and are not linked by default. To add one:
 
 ```sql
--- Insert a new product with an image
-INSERT INTO Products (ProductName, Description, Price, Image, CategoryID)
-VALUES (
-    'Blue T-Shirt',
-    'High-quality cotton blue T-shirt',
-    15.99,
-    (SELECT * FROM OPENROWSET(BULK 'C:\YourPath\Resources\blueTshirt.png', SINGLE_BLOB) AS ImageData),
-    1
-);
-
--- Update an existing product image
 UPDATE Products
 SET Image = (
-    SELECT * FROM OPENROWSET(BULK 'C:\YourPath\Resources\blueTshirt.png', SINGLE_BLOB) AS ImageData
+    SELECT * FROM OPENROWSET(
+        BULK 'C:\YourPath\Resources\image.png', SINGLE_BLOB
+    ) AS img
 )
 WHERE ProductID = 1;
 ```
 
-<br>
-
 ---
 
-## 🧩 System Overview
-
-The application simulates a **real retail management environment**,  
-including four different user roles and multiple **CRUD-based modules**.
-
-<br>
-
-### 👤 User Roles and Permissions
-
-| **Role** | **Can Register** | **Can Consult** | **Can Update** | **Can Delete** |
-|-----------|------------------|-----------------|----------------|----------------|
-| **Admin** | Clients, Employees, Products, Sales | All tables | All entities | ✅ |
-| **Manager** | Clients, Products, Sales | All except Employees | All, except Employees | ✅ |
-| **Employee** | Clients, Sales | Clients, Sales, Stock | Clients, Sales | ❌ |
-| **Client** | N/A | Products, Cart | N/A | N/A |
-
-<br>
-
-### 🧠 CRUD Functionality Breakdown
-
-The system is structured around **Create, Read, Update, Delete** operations,  
-implemented throughout the `Presentation` layer.
-
-#### 📁 Folder Overview
-
-| **Folder** | **Purpose** | **Example Forms** |
-|-------------|-------------|-------------------|
-| `REGISTER/` | Create new records *(Insert)* | `frmRegisterSale`, `frmRegisterClient`, `frmRegisterProduct`, `frmRegisterEmployee`, `frmRegisterStock` |
-| `CONSULT/`  | Read existing data *(View/Search/Delete)* | `frmConsultSale`, `frmConsultClient`, etc. |
-| `UPDATE/`   | Update existing records *(Edit)* | `frmUpdateProduct`, `frmUpdateStock`, etc. |
-
-**Additional standalone forms:**  
-`frmLogin`, `frmCart`, `frmAdmin`, `frmManager`, `frmEmployee`, `frmClient`, `frmStock`
-
-<br>
-
----
-
-### 🗂️ Project Structure (Summary)
+## 🗂️ Project Structure
 
 ```text
 retail-management-system/
-│
-├─ src/                     # Main application code
-│   ├─ Control/
-│   ├─ Data/
-│   ├─ Presentation/
-│   │   ├─ REGISTER/        # Insert clients, employees, products, sales
-│   │   ├─ UPDATE/          # Edit existing records
-│   │   └─ CONSULT/         # View, delete, or update records
-│   ├─ Properties/
-│   ├─ Resources/           # Internal images (e.g., products)
-│   ├─ App.config
-│   ├─ Program.cs
-│   └─ projetoLoja.csproj
-│
-├─ assets/                  # GIFs and banner for README
-│   ├─ login.gif
-│   ├─ admin-panel.gif
-│   └─ cart.gif
-│
-├─ baseDadosLoja.txt        # Database script and setup instructions
-├─ projetoLoja.sln          # Visual Studio solution
-├─ LICENSE                  # MIT License
-└─ README.md                # This file
+├─ src/
+│   ├─ Control/           # Business logic and validations
+│   ├─ Data/              # Database connection and queries
+│   └─ Presentation/
+│       ├─ REGISTER/      # Insert: clients, products, sales, employees
+│       ├─ UPDATE/        # Edit existing records
+│       └─ CONSULT/       # View, search, delete
+├─ assets/                # GIFs, diagrams, banner
+├─ baseDadosLoja.txt      # Full database setup script
+├─ projetoLoja.sln
+└─ README.md
 ```
---- 
-
-### 💡 Project Highlights
-
-- Implemented **layered architecture** (`Data`, `Control`, `Presentation`)
-- Built a fully functional **CRUD system**
-- Simulated **real retail workflows** with user permissions
-- Integrated **SQL Server backend** with realistic dataset
-- Supported **BLOB image storage**
-- Developed as an **academic project** to explore structured programming and database design
 
 ---
 
-## 👨‍🏭 My Contributions
+## 💡 Highlights
 
-- I **led the architectural design and developed the main logic of the system**, structuring it into layered modules (`Data`, `Control`, `Presentation`).  
-- I **built most of the Windows Forms interface**, **implemented CRUD operations** for all entities, and created the user permission logic.  
-- I also worked on **error handling** and **business validations**.
+The part I'm most satisfied with is how the permission system came together. Designing the role matrix before writing a single form meant the architecture naturally enforced access control rather than relying on UI tricks to hide things. It also made the Control layer genuinely useful rather than just a pass-through to the database.
 
-This **`README.md` and repository organization** were fully created by me as a professional showcase of the project.
+The BLOB image approach was a conscious trade-off too — it adds some complexity to the SQL setup but eliminates an entire class of "file not found" bugs that would have been annoying to debug in a demo environment.
