@@ -22,7 +22,7 @@ The goal was to go beyond a simple CRUD exercise and build something that actual
 
 ## 🎞️ Demo
 
-![Retail Banner](./assets/banner.png)
+https://github.com/goncalo-f-oliveira/retail-management-system/assets/demo.mp4
 
 ### GIFs Keys Flow
 
@@ -178,4 +178,4 @@ retail-management-system/
 
 The part I'm most satisfied with is how the permission system came together. Designing the role matrix before writing a single form meant the architecture naturally enforced access control rather than relying on UI tricks to hide things. It also made the Control layer genuinely useful rather than just a pass-through to the database.
 
-The BLOB image approach was a conscious trade-off too — it adds some complexity to the SQL setup but eliminates an entire class of "file not found" bugs that would have been annoying to debug in a demo environment.
+The BLOB image approach was a conscious trade-off too, it adds some complexity to the SQL setup but eliminates an entire class of "file not found" bugs that would have been annoying to debug in a demo environment.
