@@ -103,14 +103,6 @@ The permission matrix was designed upfront. Each role has a dedicated shell form
 
 ---
 
-## 👨‍💻 My Contributions
-
-This was a group academic project. My role covered the parts I found most interesting architecturally.
-
-I defined and enforced the 3-layer structure across the team, built the permission logic and the role-based shell forms, and implemented the majority of the Windows Forms interface across all three CRUD folders. I also wrote the business validations and error handling in the Control layer, set up all the database scripts, and put together this documentation and repository organisation.
-
----
-
 ## 💻 Technologies
 
 **C# / .NET Framework 4.7.2** · **Windows Forms** · **SQL Server** · **Visual Studio 2022**
