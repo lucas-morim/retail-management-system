@@ -22,7 +22,15 @@ The goal was to go beyond a simple CRUD exercise and build something that actual
 
 ## 🎞️ Demo
 
-https://github.com/goncalo-f-oliveira/retail-management-system/assets/demo.mp4
+<p align="left">
+  <a href="https://youtu.be/NT8X4QytvTI" target="_blank">
+    <img src="./assets/thumbnail.png" alt="Clique para assistir a demonstração" width="900">
+  </a>
+  <br>
+  <ins>Clique na imagem acima para assistir ao vídeo completo no <b>YouTube</b></ins>
+</p>
+
+<br>
 
 ### GIFs Keys Flow
 
